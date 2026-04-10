@@ -7,11 +7,21 @@ output:
     keep_md: true
 ---
 
+```{css, echo=FALSE}
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap');
+
+body {
+  font-family: 'Noto Serif', serif;
+}
+```
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r packages}
+# Packages 
+
+```{r packages, warning=FALSE, message=FALSE}
 library(hoopR) #basketball datasets
 library(dplyr) #data manipulation
 library(ggplot2) #graphing and visualization
@@ -20,9 +30,13 @@ library(psych) #descriptive statistics
 library(ggiraph) #interactive plots
 ```
 
+# Import Dataset 
+
 ```{r NBA data}
 nba_team_box <- hoopR::load_nba_team_box(2021:hoopR::most_recent_nba_season()) #save data from 2021 to current
 ```
+
+## Isolate Hawks Data From Full Dataset 
 
 ```{r Hawks df}
 hawks <- nba_team_box %>% #select from nba_team_box data 
@@ -37,6 +51,8 @@ hawks_avg <- hawks %>%
   group_by(season) %>% #summarize by season
   summarize(mean_score = round(mean(team_score),0)) #average team scores
 ```
+
+## Make Plot of Hawks Scores From 2021-2026
 
 ```{r Hawks graph}
 hawks_plot <- ggplot(data = hawks, aes(x = season, y = team_score)) +
