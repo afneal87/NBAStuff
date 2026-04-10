@@ -25,5 +25,5 @@ hawks <- nba_team_box %>% #select from nba_team_box data
 # create dataframe with season average points 
 
 hawks_avg <- hawks %>%
-  group_by(season) %>%
-  summarize(mean_score = round(mean(team_score),0))
+  group_by(season) %>% #summarize by season
+  summarize(mean_score = round(mean(team_score),0)) #average team scores
