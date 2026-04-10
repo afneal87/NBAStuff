@@ -55,3 +55,4 @@ hawks_plot <- ggplot(data = hawks, aes(x = season, y = team_score)) +
 
 hawks_plot
 
+girafe(hawks_plot)
