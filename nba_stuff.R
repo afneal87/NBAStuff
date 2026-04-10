@@ -27,3 +27,31 @@ hawks <- nba_team_box %>% #select from nba_team_box data
 hawks_avg <- hawks %>%
   group_by(season) %>% #summarize by season
   summarize(mean_score = round(mean(team_score),0)) #average team scores
+
+# graph hawks points by season 
+hawks_plot <- ggplot(data = hawks, aes(x = season, y = team_score)) +
+  geom_jitter_interactive(alpha = .7, 
+                          aes(color = team_winner,
+                              tooltip = paste0(`team_home_away`,
+                                               ' vs. ', `opponent_team_abbreviation`,
+                                               '\nFinal Score: ',`team_score`, '-', `opponent_team_score`))) +
+  geom_point_interactive(data = hawks_avg,
+                         aes(x = season, y = mean_score,
+                             tooltip = paste0('Season Average: ', `mean_score`)),
+                         color = 'black', shape = 17, size = 3) +
+  theme_classic() +
+  labs(x = 'Season',
+       y = 'Hawks Score',
+       color = 'Outcome',
+       title = 'Atlanta Hawks Points Per Game 2021-2026') +
+  theme(text = element_text(family = 'serif'),
+        plot.title = element_text(size = 18),
+        axis.text = element_text(size = 12),
+        axis.title = element_text(size = 14),
+        legend.title = element_text(size = 12),
+        legend.text = element_text(size = 12),
+        legend.position = 'bottom') +
+  scale_color_manual(values = c('#C8102E', '#fdb927'), labels = c('Loss', 'Win'))
+
+hawks_plot
+
