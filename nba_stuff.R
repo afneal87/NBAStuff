@@ -5,9 +5,24 @@ library(ggplot2) #graphing and visualization
 library(tidyverse) #data manipulation
 library(psych) #descriptive statistics
 library(ggiraph) #interactive plots
+library(fpp2)
 
 # Save dataset from hoopR package ########################
-nba_team_box <- hoopR::load_nba_team_box(2021:hoopR::most_recent_nba_season()) #save data from 2021 to current
+nba_team_box <- hoopR::load_nba_team_box(2002:hoopR::most_recent_nba_season()) #save data from 2021 to current
+
+nba_team_box <- nba_team_box %>%
+  mutate(game_date = as.Date(game_date)) %>%
+  arrange(game_date)
+
+hawks_regular_season <- nba_team_box %>%
+  filter(season_type == 2) %>%
+  filter(team_id == 1)
+
+hawks_ts <- ts(hawks_regular_season$team_score,
+               start = c(2002),
+               freq = 82)
+
+autoplot(hawks_ts)
 
 # Atlanta Hawks ##########################################################
 
